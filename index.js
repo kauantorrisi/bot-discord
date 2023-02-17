@@ -1,15 +1,20 @@
-// Require the necessary discord.js classes
 const { Client, Events, GatewayIntentBits } = require("discord.js");
-const { token } = require("./config.json");
 
-// Create a new client instance
+//importação dos commands
+const fs = require("node:fs");
+const path = require("node:path");
+
+const commandsPath = path.join(__dirname, "commands");
+const commandFiles = fs.readdirSync(commandsPath.filter(".js"));
+
+const dotenv = require("dotenv");
+dotenv.config();
+const { TOKEN } = process.env;
+
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
-// When the client is ready, run this code (only once)
-// We use 'c' for the event parameter to keep it separate from the already defined 'client'
 client.once(Events.ClientReady, (c) => {
-  console.log(`Ready! Logged in as ${c.user.tag}`);
+  console.log(`Pronto! Login realizado como: ${c.user.tag}`);
 });
 
-// Log in to Discord with your client's token
-client.login(token);
+client.login(TOKEN);
